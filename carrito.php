@@ -32,8 +32,8 @@ if ($num == 0) { ?>
         <?php echo 'Bienvenid@ ' . $_SESSION['nombre']; ?> <a href="index.php">Inicio</a> | <a href="cierre.php">Salir</a>&nbsp;&nbsp;</p>
     </div>
     <br />
-    <div class="dcont">
-      <b>Carrito de compra</b>
+    <div class="content-center">
+      <h1>Carrito de compra</h1>
       <br><br>
       <form name="forma1" method="post" action="precompra.php">
         <table width="600" border="1" cellspacing="3" cellpadding="3" align="center" bgcolor="#ffcc00">
@@ -43,7 +43,7 @@ if ($num == 0) { ?>
             <td width="100" align="center" bgcolor="#FFE57E"><b>Cantidad</b></td>
             <td width="100" align="center" bgcolor="#FFE57E"><b>Precio</b></td>
             <td width="100" align="center" bgcolor="#FFE57E"><b>Total</b></td>
-            <td width="100" bgcolor="#FFE57E"><input type="hidden" name="val" value="6">
+            <td width="100" align="center" bgcolor="#FFE57E"><b>Eliminar</b><input type="hidden" name="val" value="6">
               <input type="hidden" name="numprod" value="<?php echo $num; ?>"></td>
           </tr>
           <?php
@@ -53,19 +53,19 @@ if ($num == 0) { ?>
               <td>
                 <?php echo $row[1]; ?>
               </td>
-              <td>
-                <img src="images/<?php echo $row[3]; ?>" border="0" width="80" height="60" name="img" />
+              <td align="center">
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($row[3]) ?>" name="img-<?php echo $vector[1] ?>" width="120" height="auto"/>
               </td>
-              <td>
+              <td align="center">
                 <?php echo $row[4]; ?>
               </td>
-              <td>
+              <td align="center">
                 <?php echo $row[2]; ?>
               </td>
-              <td><?php print $total = $row[2] * $row[4]; ?></td>
+              <td align="center"><?php print $total = $row[2] * $row[4]; ?></td>
               <td align="center">
                 <a href="#" onclick="eliminar('<?php echo $row[1]; ?>','<?php echo $row[0]; ?>','<?php echo $row[4]; ?>')">
-                  <img src="images/elim.png" alt="borrar" width="16" height="16" id="borrar1" />
+                  <img src="images/elim.png" alt="borrar" width="35" height="auto" id="borrar1" />
                 </a>
               </td>
             </tr>

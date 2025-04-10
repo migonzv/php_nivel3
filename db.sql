@@ -5,7 +5,7 @@ USE d_php3_migonzv;
 CREATE TABLE IF NOT EXISTS usuario (
   id_usuario INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(30),
-  password VARCHAR(30),
+  password VARCHAR(32),
   nombre VARCHAR(30),
   apellido VARCHAR(30),
   cedula INT,
