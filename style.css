@@ -1,55 +1,70 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  .image-header {
-    width: 100%;
-    height: 275px;
-    display: block;
-    margin: 0 auto;
-    object-fit: cover;
-    object-position: 100% 56%;
-  }
-  
-  .navbar-menu {
-    text-align: right;
-    margin: 0.5rem 1rem;
-  }
-  
-  .divisor {
-    margin: 0 0.5rem;
-  }
-  
-  h1 {
-    text-align: center;
-    margin: 1.5rem;
-  }
-  
-  .content-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .content-center > strong {
-    margin-bottom: 1rem;
-  }
-  
-  td {
-    padding: 0.25rem 0.5rem;
-  }
-  
-  input {
-    padding: 0.25rem 0.5rem;
-  }
-  
-  .buttons-form-container {
-    text-align: center;
-    padding-top: 1rem;
-  }
-  
-  .space-right {
-    margin-right: 0.5rem;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.image-header {
+  width: 100%;
+  height: 275px;
+  display: block;
+  margin: 0 auto;
+  object-fit: cover;
+  object-position: 100% 56%;
+}
+
+.navbar-menu {
+  text-align: right;
+  margin: 0.5rem 1rem;
+}
+
+.divisor {
+  margin: 0 0.5rem;
+}
+
+h1 {
+  text-align: center;
+  margin: 1.5rem;
+}
+
+.content-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.content-center > strong {
+  margin-bottom: 1rem;
+}
+
+td {
+  padding: 0.25rem 0.5rem;
+}
+
+input {
+  padding: 0.25rem 0.5rem;
+}
+
+.buttons-form-container {
+  text-align: center;
+  padding-top: 1rem;
+}
+
+.space-right {
+  margin-right: 0.5rem;
+}
+
+.productos {
+  display: flex;
+  flex-wrap: wrap;
+  width: 75%;
+}
+
+.table-element {
+  width: 320px;
+  border: 2px black solid;
+  border-radius: 5px;
+  margin: 0.25rem;
+}

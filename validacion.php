@@ -76,112 +76,123 @@ if(isset($_POST['val'])) {
         break;
 
         case 3 : //carga de productos en la tienda
-            if (isset($_FILES['img']['name']) && $_FILES['img']['name']!='' && isset($_POST['nombre']) && $_POST['nombre']!='' &&
-                isset($_POST['precio']) && $_POST['precio']!='' && isset($_POST['cantidad']) && $_POST['cantidad']!='' &&
-                isset($_POST['descripcion']) && $_POST['descripcion']!='')
-            {
-              // se reciben los datos
-              $temporal = $_FILES['img']['tmp_name'];
-              $arch = $_FILES['img']['name'];
-              $tipo = getimagesize($temporal);
-              #El índice 2 del arreglo que genera  getimagesize es una bandera que indica el tipo de imagen: 1 = GIF, 2 = JPG, 3 = PNG,
-              if($tipo[2]!=1 && $tipo[2]!=2 && $tipo[2]!=3)
-              { //1(gif) - 2(jpg) -3(png)  ?>
-                <script> alert("Tipo de imagen no permitido. "); </script>
-                <meta http-equiv="refresh" content="2;URL=./producto.php" />
-                <?php
-              }
-              else
-              { # el tipo de archivo es correcto se efectua la carga del producto
-                if ($tipo !== false)
-                {  # Si la foto ha sido cargada
-                  $img_content = addslashes(file_get_contents($temporal));
-                  $sql = "INSERT INTO producto (nombre,	precio,	cantidad,	descripcion,	imagen) VALUES('$_POST[nombre]', '$_POST[precio]', '$_POST[cantidad]', '$_POST[descripcion]', '$img_content')";
-                  mysqli_query($link, $sql);
-                  if(mysqli_error($link))
-                  { #error en la insercion ?>
-                    <script> alert("Error en la carga de los datos "); </script>
-                    <meta http-equiv="refresh" content="2;URL=./producto.php" />
-                    <?php
-                  }
-                  else
-                  {# se cargaron los datos sin error?>
-                    <script> alert("El producto ha sido ingresdo al sistema ");</script>
-                    <meta http-equiv="refresh" content="2;URL=./producto.php" />
-                    <?php
-                  }
-                }
-                else
-                {?>
-                    <script> alert("Error en la carga de la foto. Intente de nuevo"); </script>
-                    <meta http-equiv="refresh" content="2;URL=./producto.php" />
-                    <?php
-                }
-              }
-            }
-            else
-            { // no se reciben los datos ?>
-              <script> alert("Debe rellenar todos los datos "); </script>
+          if (isset($_FILES['img']['name']) && $_FILES['img']['name']!='' && isset($_POST['nombre']) && $_POST['nombre']!='' &&
+              isset($_POST['precio']) && $_POST['precio']!='' && isset($_POST['cantidad']) && $_POST['cantidad']!='' &&
+              isset($_POST['descripcion']) && $_POST['descripcion']!='')
+          {
+            // se reciben los datos
+            $temporal = $_FILES['img']['tmp_name'];
+            $arch = $_FILES['img']['name'];
+            $tipo = getimagesize($temporal);
+            #El índice 2 del arreglo que genera  getimagesize es una bandera que indica el tipo de imagen: 1 = GIF, 2 = JPG, 3 = PNG,
+            if($tipo[2]!=1 && $tipo[2]!=2 && $tipo[2]!=3)
+            { //1(gif) - 2(jpg) -3(png)  ?>
+              <script> alert("Tipo de imagen no permitido. "); </script>
               <meta http-equiv="refresh" content="2;URL=./producto.php" />
               <?php
             }
+            else
+            { # el tipo de archivo es correcto se efectua la carga del producto
+              if ($tipo !== false)
+              {  # Si la foto ha sido cargada
+                $img_content = addslashes(file_get_contents($temporal));
+                $sql = "INSERT INTO producto (nombre,	precio,	cantidad,	descripcion,	imagen) VALUES('$_POST[nombre]', '$_POST[precio]', '$_POST[cantidad]', '$_POST[descripcion]', '$img_content')";
+                mysqli_query($link, $sql);
+                if(mysqli_error($link))
+                { #error en la insercion ?>
+                  <script> alert("Error en la carga de los datos "); </script>
+                  <meta http-equiv="refresh" content="2;URL=./producto.php" />
+                  <?php
+                }
+                else
+                {# se cargaron los datos sin error?>
+                  <script> alert("El producto ha sido ingresdo al sistema ");</script>
+                  <meta http-equiv="refresh" content="2;URL=./producto.php" />
+                  <?php
+                }
+              }
+              else
+              {?>
+                  <script> alert("Error en la carga de la foto. Intente de nuevo"); </script>
+                  <meta http-equiv="refresh" content="2;URL=./producto.php" />
+                  <?php
+              }
+            }
+          }
+          else
+          { // no se reciben los datos ?>
+            <script> alert("Debe rellenar todos los datos "); </script>
+            <meta http-equiv="refresh" content="2;URL=./producto.php" />
+            <?php
+          }
+          break;
+
+          case 4 : //carga de productos en el carrito
+            date_default_timezone_set('America/Caracas');
+            $fecha = date('Y-m-d h:i:s');
+            $sql = "INSERT INTO carrito VALUES('','$_SESSION[id_usuario]','$_POST[id_producto]', '$_POST[cantidad]','$fecha')";
+            mysqli_query($link,$sql);
+            if (mysqli_error($link)) 
+            {?>
+              <script> alert("Error en la carga del producto al carrito. "); </script>
+             <meta http-equiv="refresh" content="2;URL=./agregar_carro.php" />
+             <?php 
+            }
+            else 
+            { 
+              $sql1 = "UPDATE producto SET cantidad = cantidad - '$_POST[cantidad]' WHERE id_producto = '$_POST[id_producto]' ";
+              mysqli_query($link,$sql1);
+            ?>
+              <script> alert("El producto ha sido agregado en su carrito. "); </script>
+             <meta http-equiv="refresh" content="2;URL=./index.php" />
+             <?php 
+            }
             break;
 
-            case 4 : //carga de productos en el carrito
-              date_default_timezone_set('America/Caracas');
-              $fecha = date('Y-m-d h:i:s');
-              $sql = "insert into carrito values('','$_SESSION[id_usuario]','$_POST[id_producto]', '$_POST[cantidad]','$fecha')";
+            case 5 : //eliminacion de productos en el carrito
+              $sql = "DELETE FROM carrito WHERE id_usuario='$_SESSION[id_usuario]' AND id_producto='$_POST[idp]'";
               mysqli_query($link,$sql);
-              if (mysqli_error($link)) 
+              if (mysqli_error($link))
               {?>
-                <script> alert("Error en la carga del producto al carrito. "); </script> <?php 
+                <script> alert("Error en la eliminación del producto. "); </script>
+                <meta http-equiv="refresh" content="2;URL=./carrito.php" />
+                <?php
               }
-              else 
-              { 
-                $sql1 = "update producto set cantidad = cantidad - '$_POST[cantidad]' where id_producto = '$_POST[id_producto]' ";
-                mysqli_query($link,$sql1);
-              ?>
-                <script> alert("El producto ha sido agregado en su carrito. "); </script> <?php 
+              else
+              {
+                $sql1 = "UPDATE producto SET cantidad = cantidad +'$_POST[cant]' WHERE id_producto='$_POST[idp]' ";
+                mysqli_query($link,$sql1);?>
+                <script> alert("El producto ha sido eliminado exitosamente "); </script>
+                <meta http-equiv="refresh" content="2;URL=./carrito.php" />
+                <?php
               }
               break;
 
-              case 5 : //eliminacion de productos en el carrito
-                $sql = "delete from carrito where id_usuario='$_SESSION[id_usuario]' and id_producto='$_POST[idp]'";
+              case '6' : // Compra de productos
+                date_default_timezone_set('America/Caracas');
+                $fecha = date('Y-m-d h:i:s');
+                $sql = "INSERT INTO compra (id_usuario, fecha, total) VALUES($_SESSION[id_usuario],'$fecha','$_POST[total1]')";
                 mysqli_query($link,$sql);
-                if (mysqli_error($link)) 
-                {?>
-                  <script> alert("Error en la eliminación del producto. "); </script> <?php
+                if (mysqli_error($link))
+                {
+                  ?>
+                  <script> alert("Error en la compra. Intente nuevamente."); </script>
+                  <meta http-equiv="refresh" content="2;URL=./precompra.php" />
+                  <?php
                 }
-                else 
-                { 
-                  $sql1 = "update producto set cantidad = cantidad +'$_POST[cant]' where id_producto='$_POST[idp]' ";
-                  mysqli_query($link,$sql1);?>
-                  <script> alert("El producto ha sido eliminado exitosamente "); </script> <?php
-                } 
+                else
+                {
+                  $sql = "SELECT max(id_compra) FROM compra WHERE id_usuario=$_SESSION[id_usuario]";
+                  $query = mysqli_query($link,$sql);
+                  $idc = mysqli_fetch_array($query);
+                  // se elimina el producto del carrito
+                  $sql = "DELETE FROM carrito WHERE id_usuario= '$_SESSION[id_usuario]' ";
+                  mysqli_query($link,$sql);
+                  ?>
+                  <script> alert("Su compra se ha efectuado. Gracias "); </script>
+                  <meta http-equiv="refresh" content="2;URL=./index.php" />
+                  <?php
+                }
                 break;
-
-                case '6' : // Compra de productos
-                  date_default_timezone_set('America/Caracas');
-                   $fecha = date('Y-m-d h:i:s');
-                   $sql = "insert into compra values('',$_SESSION[id_usuario],'$fecha','$_POST[total1]')"; 
-                   mysqli_query($link,$sql);
-                   if (mysqli_error($link))
-                   {
-                   ?>
-                   <script> alert("Error en la compra. Intente nuevamente. "); </script> <?php
-                   }
-                   else 
-                   {
-                   $sql = "select max(id_compra) from compra where id_usuario=$_SESSION[id_usuario]"; 
-                   $query = mysqli_query($link,$sql);
-                   $idc = mysqli_fetch_array($query);
-                   // se elimina el producto del carrito
-                   $sql = "delete from carrito where id_usuario= '$_SESSION[id_usuario]' "; 
-                   mysqli_query($link,$sql);
-                   ?>
-                   <script> alert("Su compra se ha efectuado. Gracias "); </script> <?php
-                   } 
-                   break;
-                
-        }
-    }
+              }
+            }

@@ -17,10 +17,11 @@ $query = mysqli_query($link,$sql);*/
     <p align="right">
       <?php echo 'Bienvenid@ ' . $_SESSION['nombre']; ?> | <a href="index.php">Inicio</a> | <a href="cierre.php">Salir</a>&nbsp;&nbsp;</p>
   </div>
-  <div class="dcont">
+  <div class="content-center">
     <form method="post" action="validacion.php">
       <input type="hidden" name="numprod" value="<?php echo $_POST['numprod']; ?>">
       <input type="hidden" name="val" value="6">
+      <h1>Pre-compra</h1>
       <b class="red">Por favor revise el listado de artículos<br>antes de efectuar la compra</b><br><br>
       <table width="400" border="1" cellspacing="3" cellpadding="3" align="center" bgcolor="#ffcc00">
         <tr bgcolor="#ffcc00">
@@ -31,7 +32,7 @@ $query = mysqli_query($link,$sql);*/
         </tr>
         <?php
         $todo = 0;
-        $sql = "select c.id_carrito,p.nombre,c.cantidad,p.precio,c.id_producto from carrito as c,producto as p 
+        $sql = "select c.id_carrito,p.nombre,c.cantidad,p.precio,c.id_producto from carrito as c,producto as p
                 where c.id_usuario='$_SESSION[id_usuario]' and c.id_producto=p.id_producto";
         $result = mysqli_query($link, $sql);
         $a = 0;
