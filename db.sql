@@ -44,6 +44,5 @@ CREATE TABLE IF NOT EXISTS carrito (
 );
 
 INSERT INTO usuario (email, password, nombre, apellido, cedula, tipo)
-VALUES ('jose@gmail.com', md5('123'), 'jose', 'perez', '321', 'Administrador'),
-('carlos@gmail.com', md5('456'), 'carlos', 'jimenez', '654', 'usuario'),
-('maria@gmail.com', md5('789'), 'maria', 'herrera', '987', 'usuario');
+VALUES ('migonzv@gmail.com', md5('123'), 'miguel', 'gonzalez', '321', 'Administrador'),
+('migonzv2@gmail.com', md5('123'), 'miguel', 'gonzalez2', '654', 'usuario');
